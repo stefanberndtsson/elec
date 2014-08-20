@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  filename: MyText
+  path: MyText
+  checksum: MyText
+
+two:
+  filename: MyText
+  path: MyText
+  checksum: MyText
