@@ -1,6 +1,6 @@
 class Datafile < ActiveRecord::Base
-  has_many :item_datafiles
-  has_many :items, :through => :item_datafiles
+  has_one :item_datafile
+  has_one :item, :through => :item_datafile
   belongs_to :root
   
   def self.scan_directory(path, options = {})
@@ -41,13 +41,36 @@ class Datafile < ActiveRecord::Base
     item = items.first
     if !item
       item = Item.create(name: name, checksum: checksum)
+      ItemTag.where(checksum: checksum).each do |item_tag|
+        item_tag.item_id = item.id
+        item_tag.checksum = nil
+        item_tag.save
+      end
     end
     item.item_datafiles.create(datafile_id: df.id, item_id: item.id)
     df
   end
 
+  def full_path
+    [root.path, path, filename].join("/")
+  end
+  
   def exist?
-    pn = Pathname.new([root.path, path, filename].join("/"))
+    pn = Pathname.new(full_path)
     pn.exist?
+  end
+
+  def remove_file
+    old_item = item
+    item_datafile.destroy
+    self.destroy
+    if old_item.datafiles.blank?
+      old_item.item_tags.each do |item_tag|
+        item_tag.item_id = nil
+        item_tag.checksum = old_item.checksum
+        item_tag.save
+      end
+      old_item.destroy
+    end
   end
 end

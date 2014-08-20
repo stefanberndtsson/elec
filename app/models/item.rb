@@ -5,7 +5,11 @@ class Item < ActiveRecord::Base
   has_many :datafiles, :through => :item_datafiles
   scope :untagged, -> { includes(:item_tags).where(item_tags: {item_id: nil}) }
   scope :named, ->(n) { where("lower(name) LIKE ?", "%#{n}%") } 
-
+  validates_presence_of :name
+  validates_presence_of :checksum
+  validates_length_of :checksum, maximum: 40, minimum: 40
+  validates_format_of :checksum, :with => /\A[0-9a-f]*\z/
+  
   def self.tagged_with_all(tags)
     items = Item.all
     tags.each do |tag|
