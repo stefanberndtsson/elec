@@ -52,7 +52,7 @@ App = Ember.Application.create({
 
 App.Router.map(function() {
     this.resource('index', {path: '/'}, function() {
-	this.route('query', {path: '/query/:query'});
+	this.route('query', {path: '/query/:search_query'});
     });
 });
 

@@ -3,10 +3,10 @@ App.IndexQueryRoute = Ember.Route.extend({
 	console.log("IndexQuery-beforeModel", a, b, c);
     },
     model: function(params) {
-	this.controllerFor('index').set('query', params.query);
+	this.controllerFor('index').set('search_query', params.search_query);
 	console.log("IndexQuery-model", params);
 	return Ember.RSVP.hash({
-	    query: apiGet('/elec/?search='+params.query)
+	    query: apiGet('/elec/?search='+params.search_query)
 	});
     }
 });

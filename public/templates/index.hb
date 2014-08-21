@@ -3,7 +3,7 @@
     <div class="panel-heading">
       <form class="form" role="form">
 	<div class="input-group">
-	  {{input name="query" class="form-control" value=query action="search"}}
+	  {{input name="query" class="form-control" value=search_query action="search"}}
 	  <span class="input-group-btn">
 	    <button class="btn btn-default" {{action "search"}}>Search</button>
 	  </span>
