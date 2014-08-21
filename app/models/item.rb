@@ -18,18 +18,25 @@ class Item < ActiveRecord::Base
     items
   end
   
+  def self.search(query)
+  end
+  
   def add_tag(tag)
     tag = Tag.find_or_create_by(name: tag.strip.downcase)
     return nil if tags.include?(tag)
     self.item_tags.create(tag_id: tag.id)
   end
   
+  def file
+    datafiles.first
+  end
+  
   def as_json(options = {})
-    super.merge(
-    {
-      tags: tags.pluck(:name),
-      files: datafiles
+    data = {
+      tags: tags.pluck(:name).sort,
+      files: datafiles,
+      file_type: datafiles.first.file_type
     }
-    )
+    super.merge(data)
   end
 end

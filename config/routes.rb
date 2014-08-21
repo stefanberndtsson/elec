@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   get 'elec/:id' => 'elec#show'
   root 'elec#index'
   get 'elec' => 'elec#index'
+  get 'file/:id' => 'elec#get_file'
   
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

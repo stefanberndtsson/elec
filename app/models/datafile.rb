@@ -2,6 +2,15 @@ class Datafile < ActiveRecord::Base
   has_one :item_datafile
   has_one :item, :through => :item_datafile
   belongs_to :root
+
+  FILETYPES={
+    ".pdf" => "application/pdf",
+    ".png" => "image/png",
+    ".jpg" => "image/jpeg",
+    ".jpeg" => "image/jpeg",
+    ".doc" => "application/msword",
+    ".xls" => "application/excel"
+  }
   
   def self.scan_directory(path, options = {})
     default_options = {
@@ -51,6 +60,10 @@ class Datafile < ActiveRecord::Base
     df
   end
 
+  def file_type
+    FILETYPES.fetch(Pathname.new(filename).extname, "application/octet-stream")
+  end
+  
   def full_path
     [root.path, path, filename].join("/")
   end
