@@ -4,12 +4,14 @@ class Datafile < ActiveRecord::Base
   belongs_to :root
 
   FILETYPES={
-    ".pdf" => "application/pdf",
-    ".png" => "image/png",
-    ".jpg" => "image/jpeg",
-    ".jpeg" => "image/jpeg",
-    ".doc" => "application/msword",
-    ".xls" => "application/excel"
+    "pdf" => "application/pdf",
+    "png" => "image/png",
+    "jpg" => "image/jpeg",
+    "jpeg" => "image/jpeg",
+    "doc" => "application/msword",
+    "xls" => "application/excel",
+    "docx" => "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    "xlsx" => "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
   }
   
   def self.scan_directory(path, options = {})
@@ -61,7 +63,11 @@ class Datafile < ActiveRecord::Base
   end
 
   def file_type
-    FILETYPES.fetch(Pathname.new(filename).extname, "application/octet-stream")
+    FILETYPES.fetch(file_extension, "application/octet-stream")
+  end
+
+  def file_extension
+    Pathname.new(filename).extname.gsub(/^\./,'')
   end
   
   def full_path

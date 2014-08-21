@@ -35,7 +35,8 @@ class Item < ActiveRecord::Base
     data = {
       tags: tags.pluck(:name).sort,
       files: datafiles,
-      file_type: datafiles.first.file_type
+      file_type: datafiles.first.file_type,
+      file_extension: datafiles.first.file_extension
     }
     super.merge(data)
   end

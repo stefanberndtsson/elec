@@ -7,7 +7,7 @@
   {{#each item in model.query}}
   <tr>
     <td>{{file-link item=item}}</a></td>
-    <td>{{item.file_type}}</td>
+    <td>{{item.file_extension}}</td>
     <td>
       {{#each tag in item.tags}}
       <span class="label label-default">{{tag}}</span>
